@@ -11,21 +11,21 @@ def expand_conv(init, base, k, stride):
     
     channel_axis = 1 if K.image_data_format() == "channels_first" else -1
     
-    shortcut  = BatchNormalization(axis=channel_axis)(init)
+    shortcut  = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(init)
     shortcut  = Activation('relu')(shortcut)
     
     x = ZeroPadding2D((1, 1))(shortcut)
-    x = Convolution2D(base * k, (3, 3), strides=stride, padding='valid', kernel_initializer='he_normal')(x)
+    x = Convolution2D(base * k, (3, 3), strides=stride, padding='valid', kernel_initializer='he_normal', use_bias=False)(x)
 
-    x = BatchNormalization(axis=channel_axis)(x)
+    x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
     x = Activation('relu')(x)
     
     x = ZeroPadding2D((1, 1))(x)
-    x = Convolution2D(base * k, (3, 3), strides=(1, 1), padding='valid', kernel_initializer='he_normal')(x)
+    x = Convolution2D(base * k, (3, 3), strides=(1, 1), padding='valid', kernel_initializer='he_normal', use_bias=False)(x)
     
     # Add shortcut
     
-    shortcut = Convolution2D(base * k, (1, 1), strides=stride, padding='same', kernel_initializer='he_normal')(shortcut)
+    shortcut = Convolution2D(base * k, (1, 1), strides=stride, padding='same', kernel_initializer='he_normal', use_bias=False)(shortcut)
 
     m = Add()([x, shortcut])
 
@@ -37,15 +37,15 @@ def conv_block(input, n, stride, k=1, dropout=0.0):
 
     channel_axis = 1 if K.image_data_format() == "channels_first" else -1
 
-    x = BatchNormalization(axis=channel_axis)(input)
+    x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(input)
     x = Activation('relu')(x)
-    x = Convolution2D(n * k, (3, 3), padding='same', kernel_initializer='he_normal')(x)
+    x = Convolution2D(n * k, (3, 3), padding='same', kernel_initializer='he_normal', use_bias=False)(x)
 
     if dropout > 0.0: x = Dropout(dropout)(x)
 
-    x = BatchNormalization(axis=channel_axis)(x)
+    x = BatchNormalization(axis=channel_axis, momentum=0.1, epsilon=1e-5, gamma_initializer='uniform')(x)
     x = Activation('relu')(x)
-    x = Convolution2D(n * k, (3, 3), padding='same', kernel_initializer='he_normal')(x)
+    x = Convolution2D(n * k, (3, 3), padding='same', kernel_initializer='he_normal', use_bias=False)(x)
 
     m = Add()([init, x])
     return m
@@ -71,7 +71,7 @@ def create_wide_residual_network(input_dim, nb_classes=100, N=2, k=1, dropout=0.
     
     channel_axis = 1 if K.image_data_format() == "channels_first" else -1
     
-    x = Convolution2D(16, (3, 3), padding='same', kernel_initializer='he_normal')(x)
+    x = Convolution2D(16, (3, 3), padding='same', kernel_initializer='he_normal', use_bias=False)(x)
 
     nb_conv = 4
 
