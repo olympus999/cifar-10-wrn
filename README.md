@@ -9,3 +9,5 @@ My keras model is build based on this repo: https://github.com/titu1994/Wide-Res
 
 Graph of the current model (graph is missing some epochs from the beginning):
 ![Alt text](https://github.com/olympus999/cifar-10-wrn/blob/master/graph.png)
+
+Download link for the trained model with best accuracy(around 200 epochs): https://drive.google.com/open?id=0BwpxSJhEGdqfV1M3NUZicXllZmc
