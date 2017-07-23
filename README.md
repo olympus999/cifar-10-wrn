@@ -4,6 +4,7 @@ Using Wide Residual Networks to get state-of-the-art results in CIFAR-10 dataset
 Do not put too much attention on file names, I have been experimenting with different settings, so file names do not make sense.
 
 Something is still not right, I cannot achieve accuracy as shown in the paper (https://arxiv.org/pdf/1605.07146.pdf), pytorch code of this repo: https://github.com/szagoruyko/wide-residual-networks/tree/master/pytorch
+
 My keras model is build based on this repo: https://github.com/titu1994/Wide-Residual-Networks/
 
 Graph of the current model (graph is missing some epochs from the beginning):
